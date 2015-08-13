@@ -41,16 +41,12 @@ class TwitterAPIWrapper(object):
                                  data=cls.TOKEN_REQUEST_PAYLOAD)
 
         bearer_token = None
-        if response.status_code == 200:
-            response_dict = json.loads(response.text)
-            if 'access_token' in response_dict:
-                bearer_token = response_dict['access_token']
-            else:
-                logging.warning("Access token is not present in response from "
-                                "Twitter's bearer token API: %s", response.text)
+        response_dict = cls.extract_response_dict(response)
+        if 'access_token' in response_dict:
+            bearer_token = response_dict['access_token']
         else:
-            logging.warning('Twitter token API did not return a 200 HTTP code '
-                            'when asked for a bearer token: %s', response.text)
+            logging.warning("Access token is not present in response from "
+                            "Twitter's bearer token API: %s", response.text)
 
         return bearer_token
 
