@@ -18,7 +18,7 @@ class TwitterAPIWrapper(object):
     API_KEY = 'hhoGSNh6JkursHppu74AGnK5r:i7lLGpPSX1KESNNiAJgikHGuUsrZZaR0dRF9SvSTECxon7aPX6'
     BASE64_API_KEY = base64.b64encode(API_KEY)
     TWITTER_TOKEN_API = 'https://api.twitter.com/oauth2/token'
-    TWITTER_SEARCH_API = 'https://api.twitter.com/1.1/search/tweets.json?q=%s'
+    TWITTER_SEARCH_API = 'https://api.twitter.com/1.1/search/tweets.json?'
     DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded;charset=UTF-8'
     TWITTER_API_HOST = 'api.twitter.com'
     TOKEN_REQUEST_PAYLOAD = 'grant_type=client_credentials'
@@ -54,22 +54,46 @@ class TwitterAPIWrapper(object):
 
         return bearer_token
 
+    @staticmethod
+    def extract_response_dict(response):
+        """
+        If response code is 200 then convert response to dict and return it.
+        Otherwise return None.
+        """
+        if response.status_code == 200:
+            response_dict = json.loads(response.text)
+        else:
+            logging.warning('Twitter API did not return a 200 HTTP code: %s',
+                            response.text)
+            response_dict = None
+
+        return response_dict
+
     def get_topic(self, search_string):
-        """ Perform a Twitter search given a search string and access token. """
+        """ Perform a Twitter search given a search string. """
         headers = {
             'Authorization': 'Bearer %s' % self.bearer_token,
             'Content-Type': self.DEFAULT_CONTENT_TYPE,
             'Host': self.TWITTER_API_HOST,
         }
 
-        response = requests.get(self.TWITTER_SEARCH_API % search_string,
+        response = requests.get(
+            '%sq=%s' %(self.TWITTER_SEARCH_API, search_string),
+            headers=headers
+        )
+
+        return self.extract_response_dict(response)
+
+    def get_url(self, url_suffix):
+        """ Returns API response given a URL Suffix. """
+        headers = {
+            'Authorization': 'Bearer %s' % self.bearer_token,
+            'Content-Type': self.DEFAULT_CONTENT_TYPE,
+            'Host': self.TWITTER_API_HOST,
+        }
+
+        response = requests.get(self.TWITTER_SEARCH_API + url_suffix,
                                 headers=headers)
 
-        if response.status_code == 200:
-            response_dict = json.loads(response.text)
-        else:
-            logging.warning('Twitter token API did not return a 200 HTTP code '
-                            'when asked for a bearer token: %s', response.text)
-            response_dict = None
+        return self.extract_response_dict(response)
 
-        return response_dict
