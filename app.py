@@ -1,4 +1,4 @@
-import wikipedia
+import wikipedia_api_wrapper
 
 from flask import Flask, render_template, request
 from twitter_api_wrapper import TwitterAPIWrapper
@@ -16,21 +16,7 @@ def index():
         twitter_api = TwitterAPIWrapper()
         tweet_dict_list = twitter_api.get_topic(search_string)
 
-        wikipedia_list = wikipedia.search(search_string, results=5)
-        wikipedia_dict_list = []
-
-        for entry in wikipedia_list:
-            try:
-                summary = wikipedia.summary(entry, sentences=1)
-            except wikipedia.exceptions.DisambiguationError as e:
-                summary = str(e.options)
-
-            wikipedia_dict_list.append(
-                {
-                    'title': entry,
-                    'summary': summary,
-                }
-            )
+        wikipedia_dict_list = wikipedia_api_wrapper.get_topic(search_string)
 
     return render_template('index.html',
                            tweet_dict_list=tweet_dict_list,

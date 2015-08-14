@@ -10,11 +10,16 @@
     <script scr="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   </head>
   <body>
-  
-  <form action="/" method="get">
-    Search: <input type="text" name="search"><br>
-    <input type="submit" value="Submit">
-  </form>
+ 
+  <div align="center"> 
+    <br />
+    <br />
+    <form action="/" method="get">
+      Search: <input type="text" name="search"> <input type="submit" value="Submit">
+      <br />
+      <br />
+    </form>
+  </div>
 
   <div style="width:90%; margin:0 auto;">
   <table><tr><td valign="top">
@@ -24,7 +29,7 @@
       {% for tweet_dict in tweet_dict_list %}
         <tr>
           <td>{{ tweet_dict['username'] }}</td>
-          <td>{{ tweet_dict['message'] }}</td>
+          <td><a href="{{ tweet_dict['tweet_url'] }}">{{ tweet_dict['message'] }}</a></td>
           <td>{{ tweet_dict['create_date'] }}</td>
         </tr>
       {% endfor %}
@@ -37,7 +42,7 @@
       {% for wikipedia_dict in wikipedia_dict_list %}
         <tr>
           <td>{{ wikipedia_dict['title'] }}</td>
-          <td>{{ wikipedia_dict['summary'] }}</td>
+          <td>{{ wikipedia_dict['snippet']|safe }}</td>
         </tr>
       {% endfor %}
     </table>

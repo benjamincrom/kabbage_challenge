@@ -22,6 +22,7 @@ class TwitterAPIWrapper(object):
     DEFAULT_CONTENT_TYPE = 'application/x-www-form-urlencoded;charset=UTF-8'
     TWITTER_API_HOST = 'api.twitter.com'
     TOKEN_REQUEST_PAYLOAD = 'grant_type=client_credentials'
+    TWEET_URL = 'https://twitter.com/statuses/%s'
 
     def __init__(self):
         self.bearer_token = self.get_bearer_token()
@@ -85,6 +86,7 @@ class TwitterAPIWrapper(object):
                 'username': response_obj['user']['name'],
                 'message': response_obj['text'],
                 'create_date': response_obj['created_at'],
+                'tweet_url': self.TWEET_URL % response_obj['id_str']
             }
             tweet_dict_list.append(tweet_dict)
 
