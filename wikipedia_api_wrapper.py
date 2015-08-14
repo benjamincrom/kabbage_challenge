@@ -5,7 +5,7 @@ import json
 import requests
 import logging
 
-LOGFILE = '/home/bcrom/wikipedia_api.log'
+LOGFILE = 'wikipedia_api.log'
 logging.basicConfig(filename=LOGFILE, level=logging.DEBUG)
 
 WIKIPEDIA_SEARCH_API = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=%s'

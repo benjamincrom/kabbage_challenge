@@ -7,7 +7,7 @@ import logging
 import json
 import requests
 
-LOGFILE = '/home/bcrom/twitter_api.log'
+LOGFILE = 'twitter_api.log'
 logging.basicConfig(filename=LOGFILE, level=logging.DEBUG)
 
 
