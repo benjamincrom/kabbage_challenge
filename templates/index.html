@@ -41,7 +41,7 @@
       <h3>Wikipedia results:</h3>
       {% for wikipedia_dict in wikipedia_dict_list %}
         <tr>
-          <td>{{ wikipedia_dict['title'] }}</td>
+          <td><a href="{{ wikipedia_dict['wiki_url'] }}">{{ wikipedia_dict['title'] }}</a></td>
           <td>{{ wikipedia_dict['snippet']|safe }}</td>
         </tr>
       {% endfor %}
