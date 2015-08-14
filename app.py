@@ -10,7 +10,6 @@ def index():
     """ Return search page for tweets and wikipedia entries by keyword. """
     tweet_dict_list = []
     wikipedia_dict_list = []
-    print request.args
 
     if 'search' in request.args and request.args['search'] != '':
         search_string = request.args.get('search')

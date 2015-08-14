@@ -43,11 +43,11 @@ class TwitterAPIWrapper(object):
 
         bearer_token = None
         response_dict = cls.extract_response_dict(response)
-        if 'access_token' in response_dict:
+        if response_dict:
             bearer_token = response_dict['access_token']
         else:
-            logging.warning("Access token is not present in response from "
-                            "Twitter's bearer token API: %s", response.text)
+            logging.warning("No response returned from Twitter's bearer token "
+                            "API: %s", response.text)
 
         return bearer_token
 
@@ -91,17 +91,3 @@ class TwitterAPIWrapper(object):
             tweet_dict_list.append(tweet_dict)
 
         return tweet_dict_list
-
-    def get_url(self, url_suffix):
-        """ Returns API response given a URL Suffix. """
-        headers = {
-            'Authorization': 'Bearer %s' % self.bearer_token,
-            'Content-Type': self.DEFAULT_CONTENT_TYPE,
-            'Host': self.TWITTER_API_HOST,
-        }
-
-        response = requests.get(self.TWITTER_SEARCH_API + url_suffix,
-                                headers=headers)
-
-        return self.extract_response_dict(response)
-
