@@ -10,6 +10,8 @@ def index():
     tweet_dict_list = []
     wikipedia_dict_list = []
 
+    import pdb
+    pdb.set_trace()
     if 'search' in request.args:
         search_string = request.args.get('search')
 
@@ -18,6 +20,7 @@ def index():
 
         wikipedia_list = wikipedia.search(search_string, results=20)
         wikipedia_dict_list = []
+
         for entry in wikipedia_list:
             try:
                 summary = wikipedia.summary(entry, sentences=1)
