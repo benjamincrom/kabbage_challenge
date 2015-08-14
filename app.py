@@ -16,7 +16,7 @@ def index():
         twitter_api = TwitterAPIWrapper()
         tweet_dict_list = twitter_api.get_topic(search_string)
 
-        wikipedia_list = wikipedia.search(search_string, results=20)
+        wikipedia_list = wikipedia.search(search_string, results=5)
         wikipedia_dict_list = []
 
         for entry in wikipedia_list:
@@ -32,11 +32,9 @@ def index():
                 }
             )
 
-    return render_template(
-        'index.html',
-        tweet_dict_list=tweet_dict_list,
-        wikipedia_dict_list=wikipedia_dict_list
-    )
+    return render_template('index.html',
+                           tweet_dict_list=tweet_dict_list,
+                           wikipedia_dict_list=wikipedia_dict_list)
 
 if __name__ == '__main__':
     app.run()
