@@ -1,11 +1,13 @@
 #!/usr/bin/python
 """
+wikipedia_api_wrapper.py -- Module to contain method which searches Wikipedia
+                            via its api
 """
 import json
 import requests
 import logging
 
-LOGFILE = 'wikipedia_api.log'
+LOGFILE = 'topics-bcrom.log'
 logging.basicConfig(filename=LOGFILE, level=logging.DEBUG)
 
 WIKIPEDIA_SEARCH_API = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=%s'
@@ -32,4 +34,3 @@ def get_topic(search_string):
         logging.warning('Wikipedia API did not return 200 response code.')
 
     return return_dict_list
-

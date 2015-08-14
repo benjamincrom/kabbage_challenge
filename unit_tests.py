@@ -1,10 +1,12 @@
 #!/usr/bin/python
+"""
+unit_tests.py -- contains tests for the topics-bcrom app.  Run with $py.test
+"""
 import requests
 import base64
 
 import wikipedia_api_wrapper
 import twitter_api_wrapper
-import app
 
 WORKING_API_ENDPOINT = 'https://en.wikipedia.org/w/api.php?action=query&list=search&format=json&srsearch=football'
 NOT_WORKING_API_ENDPOINT = 'https://en.wikipedia.org/dfjkldsfjkd'
@@ -49,4 +51,3 @@ def test_wikipedia_get_topic_with_400():
     assert(
         len(wikipedia_api_wrapper.get_topic('football')) == 0
     )
-    

@@ -1,6 +1,3 @@
-**User story**
-As a Kabbage developer, I want to see how you code a lightweight application, so that I can get a feel for a your skills and strengths.
-
 **Acceptance Criteria:**
 
 1. Given a user, when they access your application, then they should be presented with a search box prompting them for a topic

@@ -1,3 +1,6 @@
+"""
+app.py -- run Flask web application topics-bcrom
+"""
 import wikipedia_api_wrapper
 
 from flask import Flask, render_template, request

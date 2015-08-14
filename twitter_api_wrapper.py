@@ -7,7 +7,7 @@ import logging
 import json
 import requests
 
-LOGFILE = 'twitter_api.log'
+LOGFILE = 'topics-bcrom.log'
 logging.basicConfig(filename=LOGFILE, level=logging.DEBUG)
 
 
@@ -46,8 +46,8 @@ class TwitterAPIWrapper(object):
         if response_dict:
             bearer_token = response_dict['access_token']
         else:
-            logging.warning("No response returned from Twitter's bearer token "
-                            "API: %s", response.text)
+            logging.warning("Incorrect response returned from Twitter's bearer "
+                            "token API: %s", response.text)
 
         return bearer_token
 
