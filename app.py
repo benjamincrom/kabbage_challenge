@@ -9,9 +9,5 @@ TWITTER_KEY_BASE64 = TWITTER_KEY.encode('base64')
 def hello():
     return "Hello World!"
 
-def twitter_bearer_token():
-
-
-
 if __name__ == '__main__':
     app.run()
