@@ -23,7 +23,7 @@ def index():
             try:
                 summary = wikipedia.summary(entry, sentences=1)
             except wikipedia.exceptions.DisambiguationError as e:
-                summary = str(e.options[0])
+                summary = str(e.options)
 
             wikipedia_dict_list.append(
                 {
