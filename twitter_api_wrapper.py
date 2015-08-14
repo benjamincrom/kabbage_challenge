@@ -78,7 +78,17 @@ class TwitterAPIWrapper(object):
             headers=headers
         )
 
-        return self.extract_response_dict(response)
+        response_dict = self.extract_response_dict(response)
+        tweet_dict_list = []
+        for response_obj in response_dict['statuses']:
+            tweet_dict = {
+                'username': response_obj['user']['name'],
+                'message': response_obj['text'],
+                'create_date': response_obj['created_at'],
+            }
+            tweet_dict_list.append(tweet_dict)
+
+        return tweet_dict_list
 
     def get_url(self, url_suffix):
         """ Returns API response given a URL Suffix. """
