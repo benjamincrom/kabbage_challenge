@@ -5,48 +5,51 @@
     <title>Wikipedia and Twitter Summarizer</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- stylesheets -->
     <link href="http://netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet" media="screen">
     <script scr="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   </head>
   <body>
- 
-  <div align="center"> 
-    <br />
-    <br />
-    <form action="/" method="get">
-      Search: <input type="text" name="search"> <input type="submit" value="Submit">
+    <div align="center"> 
       <br />
       <br />
-    </form>
-  </div>
-
-  <div style="width:90%; margin:0 auto;">
-  <table><tr><td valign="top">
-  <div style="width:90%; margin:0 auto;">
-    <table class="table">
-      <h3>Twitter results:</h3>
-      {% for tweet_dict in tweet_dict_list %}
+      <form action="/" method="get">
+        Search: <input type="text" name="search"> <input type="submit" value="Submit">
+        <br />
+        <br />
+      </form>
+    </div>
+    <div style="width:90%; margin:0 auto;">
+      <table>
         <tr>
-          <td>{{ tweet_dict['username'] }}</td>
-          <td><a href="{{ tweet_dict['tweet_url'] }}">{{ tweet_dict['message'] }}</a></td>
-          <td>{{ tweet_dict['create_date'] }}</td>
+          <td valign="top">
+            <div style="width:90%; margin:0 auto;">
+              <table class="table">
+                <h3>Twitter results:</h3>
+                {% for tweet_dict in tweet_dict_list %}
+                  <tr>
+                    <td>{{ tweet_dict['username'] }}</td>
+                    <td><a href="{{ tweet_dict['tweet_url'] }}">{{ tweet_dict['message'] }}</a></td>
+                    <td>{{ tweet_dict['create_date'] }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </td>
+          <td valign="top">
+            <div style="width:90%; margin:0 auto;">
+              <table class="table">
+                <h3>Wikipedia results:</h3>
+                {% for wikipedia_dict in wikipedia_dict_list %}
+                  <tr>
+                    <td><a href="{{ wikipedia_dict['wiki_url'] }}">{{ wikipedia_dict['title'] }}</a></td>
+                    <td>{{ wikipedia_dict['snippet']|safe }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+          </td>
         </tr>
-      {% endfor %}
-    </table>
-  </div>
-  </td><td valign="top">
-  <div style="width:90%; margin:0 auto;">
-    <table class="table">
-      <h3>Wikipedia results:</h3>
-      {% for wikipedia_dict in wikipedia_dict_list %}
-        <tr>
-          <td><a href="{{ wikipedia_dict['wiki_url'] }}">{{ wikipedia_dict['title'] }}</a></td>
-          <td>{{ wikipedia_dict['snippet']|safe }}</td>
-        </tr>
-      {% endfor %}
-    </table>
-  </div>
-  </td></tr></table></div>
+      </table>
+    </div>
   </body>
 </html>
