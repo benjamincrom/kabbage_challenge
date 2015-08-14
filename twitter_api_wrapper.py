@@ -36,18 +36,22 @@ class TwitterAPIWrapper(object):
             'Host': cls.TWITTER_API_HOST,
 
         }
-
-        response = requests.post(cls.TWITTER_TOKEN_API,
-                                 headers=request_headers,
-                                 data=cls.TOKEN_REQUEST_PAYLOAD)
+        try:
+            response = requests.post(cls.TWITTER_TOKEN_API,
+                                     headers=request_headers,
+                                     data=cls.TOKEN_REQUEST_PAYLOAD)
+        except requests.exceptions.ConnectionError as e:
+            logging.warning('Could not connect to API: %s', e)
+            response = None
 
         bearer_token = None
-        response_dict = cls.extract_response_dict(response)
-        if response_dict:
-            bearer_token = response_dict['access_token']
-        else:
-            logging.warning("Incorrect response returned from Twitter's bearer "
-                            "token API: %s", response.text)
+        if response:
+            response_dict = cls.extract_response_dict(response)
+            if response_dict:
+                bearer_token = response_dict['access_token']
+            else:
+                logging.warning("Incorrect response returned from Twitter's "
+                                "bearer token API: %s", response.text)
 
         return bearer_token
 
@@ -74,20 +78,25 @@ class TwitterAPIWrapper(object):
             'Host': self.TWITTER_API_HOST,
         }
 
-        response = requests.get(
-            '%sq=%s' %(self.TWITTER_SEARCH_API, search_string),
-            headers=headers
-        )
+        try:
+            response = requests.get(
+                '%sq=%s' %(self.TWITTER_SEARCH_API, search_string),
+                headers=headers
+            )
+        except requests.exceptions.ConnectionError as e:
+            logging.warning('Could not connect to API: %s', e)
+            response = None
 
-        response_dict = self.extract_response_dict(response)
         tweet_dict_list = []
-        for response_obj in response_dict['statuses']:
-            tweet_dict = {
-                'username': response_obj['user']['name'],
-                'message': response_obj['text'],
-                'create_date': response_obj['created_at'],
-                'tweet_url': self.TWEET_URL % response_obj['id_str']
-            }
-            tweet_dict_list.append(tweet_dict)
+        if response:
+            response_dict = self.extract_response_dict(response)
+            for response_obj in response_dict['statuses']:
+                tweet_dict = {
+                    'username': response_obj['user']['name'],
+                    'message': response_obj['text'],
+                    'create_date': response_obj['created_at'],
+                    'tweet_url': self.TWEET_URL % response_obj['id_str']
+                }
+                tweet_dict_list.append(tweet_dict)
 
         return tweet_dict_list
