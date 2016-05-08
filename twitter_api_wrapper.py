@@ -5,6 +5,7 @@ twitter_api_wrapper.py -- contains class used to interact with the Twitter API
 import base64
 import logging
 import json
+import os
 import requests
 
 LOGFILE = 'topics-bcrom.log'
@@ -15,7 +16,7 @@ class TwitterAPIWrapper(object):
     """
     TwitterAPIWrapper holds an API bearer token and returns twitter API searches
     """
-    API_KEY = 'hhoGSNh6JkursHppu74AGnK5r:i7lLGpPSX1KESNNiAJgikHGuUsrZZaR0dRF9SvSTECxon7aPX6'
+    API_KEY = os.environ['TWITTER_API_KEY']
     BASE64_API_KEY = base64.b64encode(API_KEY)
     TWITTER_TOKEN_API = 'https://api.twitter.com/oauth2/token'
     TWITTER_SEARCH_API = 'https://api.twitter.com/1.1/search/tweets.json?'
